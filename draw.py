@@ -26,6 +26,7 @@ class ImageGenerator:
 
     def save(self):
         filename = "temp.jpg"
+        self.image = self.image.convert("1").resize((64, 64))
         self.image.save(filename)
 
     def clear(self):
@@ -44,8 +45,8 @@ class ImageGenerator:
     def motion(self,event):
         if self.b1 == "down":
             if self.xold is not None and self.yold is not None:
-                event.widget.create_line(self.xold,self.yold,event.x,event.y,smooth='true',width=3,fill='blue')
-                self.draw.line(((self.xold,self.yold),(event.x,event.y)),(0,128,0),width=3)
+                event.widget.create_line(self.xold,self.yold,event.x,event.y,smooth='true',width=5,fill='black')
+                self.draw.line(((self.xold,self.yold),(event.x,event.y)),(0,0,0),width=5)
 
         self.xold = event.x
         self.yold = event.y
@@ -54,5 +55,5 @@ if __name__ == "__main__":
     root=tk.Tk()
     root.wm_geometry("%dx%d+%d+%d" % (600, 600, 10, 10))
     root.config(bg='white')
-    ImageGenerator(root,10,10)
+    ImageGenerator(root,50,50)
     root.mainloop()
