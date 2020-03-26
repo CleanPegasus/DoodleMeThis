@@ -1,13 +1,14 @@
 import tkinter as tk
 from PIL import Image,ImageDraw
+import cv2
 
 class ImageGenerator:
     def __init__(self,parent,posx,posy,*kwargs):
         self.parent = parent
         self.posx = posx
         self.posy = posy
-        self.sizex = 500
-        self.sizey = 500
+        self.sizex = 256
+        self.sizey = 256
         self.b1 = "up"
         self.xold = None
         self.yold = None 
@@ -21,17 +22,17 @@ class ImageGenerator:
         self.button1=tk.Button(self.parent,text="Clear!",width=10,bg='white',command=self.clear)
         self.button1.place(x=(self.sizex/7)+80,y=self.sizey+20)
 
-        self.image=Image.new("RGB",(500,500),(255,255,255))
+        self.image=Image.new("RGB",(256,256),(255,255,255))
         self.draw=ImageDraw.Draw(self.image)
 
     def save(self):
         filename = "temp.jpg"
-        self.image = self.image.convert("1").resize((64, 64))
+        #self.image = self.image.convert("1").resize((500, 500))
         self.image.save(filename)
 
     def clear(self):
         self.drawing_area.delete("all")
-        self.image=Image.new("RGB",(500,500),(255,255,255))
+        self.image=Image.new("RGB",(256,256),(255,255,255))
         self.draw=ImageDraw.Draw(self.image)
 
     def b1down(self,event):
@@ -46,14 +47,14 @@ class ImageGenerator:
         if self.b1 == "down":
             if self.xold is not None and self.yold is not None:
                 event.widget.create_line(self.xold,self.yold,event.x,event.y,smooth='true',width=5,fill='black')
-                self.draw.line(((self.xold,self.yold),(event.x,event.y)),(0,0,0),width=5)
+                self.draw.line(((self.xold,self.yold),(event.x,event.y)),(0,0,0),width=10)
 
         self.xold = event.x
         self.yold = event.y
 
 if __name__ == "__main__":
     root=tk.Tk()
-    root.wm_geometry("%dx%d+%d+%d" % (600, 600, 10, 10))
+    root.wm_geometry("%dx%d+%d+%d" % (300, 300, 5, 5))
     root.config(bg='white')
-    ImageGenerator(root,50,50)
+    ImageGenerator(root,5,5)
     root.mainloop()
